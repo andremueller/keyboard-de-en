@@ -1,0 +1,25 @@
+// German (US Mix) Keyboard Layout
+// Based on US layout with German umlauts accessible via ALT key
+
+default partial alphanumeric_keys
+xkb_symbols "basic" {
+
+    // Include the base US layout
+    include "us(basic)"
+
+    // German umlauts with ALT key
+    key <AD03> { [ e, E, EuroSign, cent ] };
+    key <AD07> { [ u, U, udiaeresis, Udiaeresis ] };
+    key <AD09> { [ o, O, odiaeresis, Odiaeresis ] };
+    key <AC01> { [ a, A, adiaeresis, Adiaeresis ] };
+    key <AC02> { [ s, S, ssharp, section ] };
+
+    // ALT + key combinations for umlauts
+    modifier_map Mod3 { Alt_L, Alt_R };
+
+    // Define the ALT level mappings
+    key <AD07> { type="FOUR_LEVEL", symbols[0] = u, symbols[1] = U, symbols[2] = udiaeresis, symbols[3] = Udiaeresis };
+    key <AD09> { type="FOUR_LEVEL", symbols[0] = o, symbols[1] = O, symbols[2] = odiaeresis, symbols[3] = Odiaeresis };
+    key <AC01> { type="FOUR_LEVEL", symbols[0] = a, symbols[1] = A, symbols[2] = adiaeresis, symbols[3] = Adiaeresis };
+    key <AC02> { type="FOUR_LEVEL", symbols[0] = s, symbols[1] = S, symbols[2] = ssharp, symbols[3] = section };
+};
