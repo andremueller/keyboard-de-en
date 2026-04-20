@@ -1,25 +1,43 @@
 # AGENTS.md
 
 ## Repository Overview
-- This repository contains custom keyboard layouts for macOS, Windows, and Linux designed for German software developers who prefer the US keyboard layout but need occasional access to German umlauts (ä, ö, ü, ß).
+- Custom keyboard layouts for macOS, Windows, and Linux for German software developers who prefer the US layout but need occasional German umlauts (ä, ö, ü, ß).
 
 ## Key Files
-- `macos/EN_DE_Mix_Keylayout.keylayout`: The custom keyboard layout file for macOS.
-- `windows/EN-DE-Accents.klc`: The custom keyboard layout file for Windows.
-- `linux/de-en-mix`: The custom keyboard layout file for Linux.
+- `macos/EN_DE_Mix_Keylayout.keylayout`: macOS keyboard layout
+- `windows/EN-DE-Accents.klc`: Windows keyboard layout
+- `linux/de-en-mix`: XKB symbol file (Ubuntu/Linux)
+- `linux/install.py`: Python installer (check/install/update/uninstall/load)
+- `linux/install.sh`: Bash wrapper — sets up Python venv and calls `install.py`
+- `linux/requirements.txt`: Python deps (`lxml`; falls back to stdlib if unavailable)
+- `Makefile`: Convenience targets for the Linux installer
 
-## Installation
-- **macOS**: Use the [Ukulele software](https://software.sil.org/ukelele/) to open and install the `macos/EN_DE_Mix_Keylayout.keylayout` file.
-- **Windows**: Use the [Microsoft Keyboard Layout Creator](https://www.microsoft.com/en-us/download/details.aspx?id=102134) to open and install the `windows/EN-DE-Accents.klc` file.
-- **Linux**: Copy the `linux/de-en-mix` file to `/usr/share/X11/xkb/symbols/` and reconfigure the X11 keyboard data.
+## Linux installer — critical facts
 
-## Usage
-- The layout is based on the US keyboard layout.
-- Umlauts (ä, ö, ü, ß) can be typed by holding the `ALT` key (macOS/Linux) or `ALT-GR`/`CTRL-ALT` keys (Windows) and pressing the corresponding keys where these characters would normally be on a German keyboard.
+- **Ubuntu 24.04 / GNOME 46 uses `evdev` rules**, not `base`. The layout must be registered in **both** `evdev.extras.xml` and `base.extras.xml`. Registering only `base.extras.xml` will not make the layout appear in GNOME Settings.
+- **Do not edit `base.xml` or `evdev.xml`** — those are overwritten on system updates.
+- The layout uses `include "level3(alt_switch)"` so the regular `Alt` key (not AltGr) activates umlauts.
+- After installation a **logout/login or reboot** is required for GNOME to pick up the new layout.
+- `make load` uses `setxkbmap -I linux/ de-en-mix` — loads the layout temporarily for the current X session without installing; does not appear in GNOME menu.
+- The Python venv is created automatically at `linux/.venv` on first run of any `make` target.
+- All system XML file modifications are backed up with a timestamp before being changed.
 
-## Development
-- No build or test commands are required for this repository.
-- Changes to the keyboard layout can be made using the respective software tools (Ukulele for macOS, Microsoft Keyboard Layout Creator for Windows, or editing the XKB file for Linux).
+## Makefile targets (run from repo root)
+```
+make prepare     # check deps, offer apt install for missing ones
+make check       # show installation status (exit 0=ok, 1=not installed, 2=partial)
+sudo make install   # idempotent full install
+sudo make update    # update only the symbol file
+sudo make uninstall # full removal
+make load        # temporary session load (no sudo)
+```
 
-## License
-- MIT License (see `LICENSE` file).
+## Installation paths (Linux)
+- Symbol file: `/usr/share/X11/xkb/symbols/de-en-mix`
+- Registered in: `/usr/share/X11/xkb/rules/base.extras.xml`
+- Registered in: `/usr/share/X11/xkb/rules/evdev.extras.xml`
+
+## Layout key mappings
+- Alt+a/o/u/s → ä/ö/ü/ß
+- Shift+Alt+a/o/u → Ä/Ö/Ü
+- macOS/Linux use `Alt`; Windows uses `AltGr` / `Ctrl+Alt`

@@ -1,0 +1,3 @@
+# No external packages needed - only Python stdlib (xml.etree.ElementTree)
+# lxml is used if available for better formatting, but falls back to stdlib
+lxml>=5.0.0
