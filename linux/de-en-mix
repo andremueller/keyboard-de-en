@@ -15,10 +15,10 @@ xkb_symbols "basic" {
 
     name[Group1]="German (US Mix)";
 
-    // ;  -> ä (Alt+;)  /  Ä (Shift+Alt+;)
-    key <AC10> { [ semicolon, colon, adiaeresis, Adiaeresis ] };
-    // '  -> ö (Alt+')  /  Ö (Shift+Alt+')
-    key <AC11> { [ apostrophe, quotedbl, odiaeresis, Odiaeresis ] };
+    // ;  -> ö (Alt+;)  /  Ö (Shift+Alt+;)
+    key <AC10> { [ semicolon, colon, odiaeresis, Odiaeresis ] };
+    // '  -> ä (Alt+')  /  Ä (Shift+Alt+')
+    key <AC11> { [ apostrophe, quotedbl, adiaeresis, Adiaeresis ] };
     // [  -> ü (Alt+[)  /  Ü (Shift+Alt+[)
     key <AD11> { [ bracketleft, braceleft, udiaeresis, Udiaeresis ] };
     // -  -> ß (Alt+-)  /  no uppercase

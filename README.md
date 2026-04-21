@@ -8,10 +8,10 @@ The idea: keep the standard US layout. German umlauts are typed by holding `Alt`
 
 | Keys                     | Result |
 | ------------------------ | ------ |
-| Alt + <kbd>;</kbd>       | ä      |
-| Shift+Alt + <kbd>;</kbd> | Ä      |
-| Alt + <kbd>'</kbd>       | ö      |
-| Shift+Alt + <kbd>'</kbd> | Ö      |
+| Alt + <kbd>;</kbd>       | ö      |
+| Shift+Alt + <kbd>;</kbd> | Ö      |
+| Alt + <kbd>'</kbd>       | ä      |
+| Shift+Alt + <kbd>'</kbd> | Ä      |
 | Alt + <kbd>[</kbd>       | ü      |
 | Shift+Alt + <kbd>[</kbd> | Ü      |
 | Alt + <kbd>-</kbd>       | ß      |
