@@ -293,15 +293,15 @@ def cmd_prepare() -> int:
     header("Checking dependencies")
 
     deps = {
-        "python3":      ("python3 --version",              "python3"),
-        "python3-venv": ("python3 -c 'import venv'",       "python3-venv"),
-        "setxkbmap":    ("which setxkbmap",                "x11-xkb-utils"),
-        "localectl":    ("which localectl",                "systemd"),
+        "python3":      (["python3", "--version"],              "python3"),
+        "python3-venv": (["python3", "-c", "import venv"],     "python3-venv"),
+        "setxkbmap":    (["which", "setxkbmap"],               "x11-xkb-utils"),
+        "localectl":    (["which", "localectl"],               "systemd"),
     }
 
     missing_pkgs = []
     for name, (check_cmd, pkg) in deps.items():
-        result = subprocess.run(check_cmd.split(), capture_output=True)
+        result = subprocess.run(check_cmd, capture_output=True)
         if result.returncode == 0:
             ok(f"{name} is available")
         else:
