@@ -1,6 +1,12 @@
 // German (US Mix) Keyboard Layout
 // Based on US layout with German umlauts accessible via Alt key
 // Level 1: normal, Level 2: Shift, Level 3: Alt, Level 4: Shift+Alt
+//
+// Umlaut positions mirror the standard German keyboard:
+//   ;  -> ä / Ä   (DE: Ä key)
+//   '  -> ö / Ö   (DE: Ö key)
+//   [  -> ü / Ü   (DE: Ü key)
+//   -  -> ß        (DE: ß key, no uppercase)
 
 default partial alphanumeric_keys
 xkb_symbols "basic" {
@@ -9,14 +15,14 @@ xkb_symbols "basic" {
 
     name[Group1]="German (US Mix)";
 
-    // a -> ä / Ä
-    key <AC01> { [ a, A, adiaeresis, Adiaeresis ] };
-    // s -> ß (no uppercase for ß in traditional usage)
-    key <AC02> { [ s, S, ssharp, ssharp ] };
-    // u -> ü / Ü
-    key <AD07> { [ u, U, udiaeresis, Udiaeresis ] };
-    // o -> ö / Ö
-    key <AD09> { [ o, O, odiaeresis, Odiaeresis ] };
+    // ;  -> ä (Alt+;)  /  Ä (Shift+Alt+;)
+    key <AC10> { [ semicolon, colon, adiaeresis, Adiaeresis ] };
+    // '  -> ö (Alt+')  /  Ö (Shift+Alt+')
+    key <AC11> { [ apostrophe, quotedbl, odiaeresis, Odiaeresis ] };
+    // [  -> ü (Alt+[)  /  Ü (Shift+Alt+[)
+    key <AD11> { [ bracketleft, braceleft, udiaeresis, Udiaeresis ] };
+    // -  -> ß (Alt+-)  /  no uppercase
+    key <AE11> { [ minus, underscore, ssharp, ssharp ] };
 
     // Use Alt (not AltGr) as level3 modifier
     include "level3(alt_switch)"

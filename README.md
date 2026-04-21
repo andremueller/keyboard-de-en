@@ -4,17 +4,17 @@ Mix keyboard layout for German software developers working with the US layout wh
 
 Keyboard switching between American (US) and German (DE) layouts slows everything down. The US layout is ideal for software development — all special characters are easily reachable.
 
-The idea: keep the standard US layout. German umlauts are typed by holding `Alt` and pressing the key at the umlaut's original position on a German keyboard.
+The idea: keep the standard US layout. German umlauts are typed by holding `Alt` and pressing the corresponding German keys i.e.
 
-| Keys          | Result |
-|---------------|--------|
-| Alt + a       | ä      |
-| Shift+Alt + a | Ä      |
-| Alt + o       | ö      |
-| Shift+Alt + o | Ö      |
-| Alt + u       | ü      |
-| Shift+Alt + u | Ü      |
-| Alt + s       | ß      |
+| Keys                     | Result |
+| ------------------------ | ------ |
+| Alt + <kbd>;</kbd>       | ä      |
+| Shift+Alt + <kbd>;</kbd> | Ä      |
+| Alt + <kbd>'</kbd>       | ö      |
+| Shift+Alt + <kbd>'</kbd> | Ö      |
+| Alt + <kbd>[</kbd>       | ü      |
+| Shift+Alt + <kbd>[</kbd> | Ü      |
+| Alt + <kbd>-</kbd>       | ß      |
 
 > On Windows, use `AltGr` (right Alt) or `Ctrl+Alt` instead of `Alt`.
 

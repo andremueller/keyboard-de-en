@@ -494,8 +494,8 @@ def cmd_load() -> int:
             return 1
 
     ok("Layout loaded successfully for this session.")
-    info("Test: press Alt+a → ä, Alt+o → ö, Alt+u → ü, Alt+s → ß")
-    info("      Shift+Alt+a → Ä, Shift+Alt+o → Ö, Shift+Alt+u → Ü")
+    info("Test: press Alt+;  → ä,  Alt+'  → ö,  Alt+[  → ü,  Alt+- → ß")
+    info("      Shift+Alt+;  → Ä,  Shift+Alt+' → Ö,  Shift+Alt+[ → Ü")
     return 0
 
 # ---------------------------------------------------------------------------
