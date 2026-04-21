@@ -38,8 +38,11 @@ LAYOUT_SRC = SCRIPT_DIR / "de-en-mix"
 LAYOUT_DEST = Path("/usr/share/X11/xkb/symbols/de-en-mix")
 
 XKB_RULES = Path("/usr/share/X11/xkb/rules")
-BASE_EXTRAS = XKB_RULES / "base.extras.xml"
-EVDEV_EXTRAS = XKB_RULES / "evdev.extras.xml"
+# Ubuntu 24.04: libxkbcommon and GNOME only read evdev.xml / base.xml.
+# The *.extras.xml files exist but are never merged or read by the system.
+# We must patch the main XML files directly.
+BASE_XML = XKB_RULES / "base.xml"
+EVDEV_XML = XKB_RULES / "evdev.xml"
 
 LAYOUT_NAME = "de-en-mix"
 LAYOUT_SHORT = "de"
@@ -212,8 +215,8 @@ STATUS_PARTIAL = 2
 
 def check_status() -> dict:
     symbol_ok = LAYOUT_DEST.exists()
-    _, root_base = _parse_xml(BASE_EXTRAS)
-    _, root_evdev = _parse_xml(EVDEV_EXTRAS)
+    _, root_base = _parse_xml(BASE_XML)
+    _, root_evdev = _parse_xml(EVDEV_XML)
     base_ok = _layout_entry_exists(root_base, LAYOUT_NAME)
     evdev_ok = _layout_entry_exists(root_evdev, LAYOUT_NAME)
 
@@ -224,13 +227,13 @@ def check_status() -> dict:
     return {
         "symbol_file": symbol_ok,
         "symbol_uptodate": symbol_uptodate,
-        "base_extras": base_ok,
-        "evdev_extras": evdev_ok,
+        "base_xml": base_ok,
+        "evdev_xml": evdev_ok,
     }
 
 def overall_status(s: dict) -> int:
-    all_ok = s["symbol_file"] and s["base_extras"] and s["evdev_extras"]
-    any_ok = s["symbol_file"] or s["base_extras"] or s["evdev_extras"]
+    all_ok = s["symbol_file"] and s["base_xml"] and s["evdev_xml"]
+    any_ok = s["symbol_file"] or s["base_xml"] or s["evdev_xml"]
     if all_ok:
         return STATUS_OK
     elif any_ok:
@@ -253,8 +256,8 @@ def cmd_check() -> int:
     print()
     _print_check("Layout symbol file present", s["symbol_file"])
     _print_check("Layout symbol file up-to-date", s["symbol_uptodate"])
-    _print_check(f"Registered in base.extras.xml", s["base_extras"])
-    _print_check(f"Registered in evdev.extras.xml", s["evdev_extras"])
+    _print_check(f"Registered in base.xml", s["base_xml"])
+    _print_check(f"Registered in evdev.xml", s["evdev_xml"])
     print()
 
     status = overall_status(s)
@@ -344,23 +347,23 @@ def cmd_install() -> int:
     else:
         ok("Symbol file already present and up-to-date.")
 
-    # 2. Register in base.extras.xml
-    if not s["base_extras"]:
-        info(f"Adding layout entry to {BASE_EXTRAS} ...")
-        backup_file(BASE_EXTRAS)
-        added = add_layout_to_xml(BASE_EXTRAS)
-        ok("Entry added to base.extras.xml.") if added else ok("Entry already present in base.extras.xml.")
+    # 2. Register in base.xml
+    if not s["base_xml"]:
+        info(f"Adding layout entry to {BASE_XML} ...")
+        backup_file(BASE_XML)
+        added = add_layout_to_xml(BASE_XML)
+        ok("Entry added to base.xml.") if added else ok("Entry already present in base.xml.")
     else:
-        ok("Entry already present in base.extras.xml.")
+        ok("Entry already present in base.xml.")
 
-    # 3. Register in evdev.extras.xml
-    if not s["evdev_extras"]:
-        info(f"Adding layout entry to {EVDEV_EXTRAS} ...")
-        backup_file(EVDEV_EXTRAS)
-        added = add_layout_to_xml(EVDEV_EXTRAS)
-        ok("Entry added to evdev.extras.xml.") if added else ok("Entry already present in evdev.extras.xml.")
+    # 3. Register in evdev.xml
+    if not s["evdev_xml"]:
+        info(f"Adding layout entry to {EVDEV_XML} ...")
+        backup_file(EVDEV_XML)
+        added = add_layout_to_xml(EVDEV_XML)
+        ok("Entry added to evdev.xml.") if added else ok("Entry already present in evdev.xml.")
     else:
-        ok("Entry already present in evdev.extras.xml.")
+        ok("Entry already present in evdev.xml.")
 
     print()
     ok("Installation complete!")
@@ -410,23 +413,23 @@ def cmd_uninstall() -> int:
     else:
         info("Symbol file not found (already removed).")
 
-    # 2. Remove from base.extras.xml
-    if s["base_extras"]:
-        info(f"Removing entry from {BASE_EXTRAS} ...")
-        backup_file(BASE_EXTRAS)
-        removed = remove_layout_from_xml(BASE_EXTRAS)
-        ok("Entry removed from base.extras.xml.") if removed else warn("Entry not found in base.extras.xml.")
+    # 2. Remove from base.xml
+    if s["base_xml"]:
+        info(f"Removing entry from {BASE_XML} ...")
+        backup_file(BASE_XML)
+        removed = remove_layout_from_xml(BASE_XML)
+        ok("Entry removed from base.xml.") if removed else warn("Entry not found in base.xml.")
     else:
-        info("Entry not present in base.extras.xml.")
+        info("Entry not present in base.xml.")
 
-    # 3. Remove from evdev.extras.xml
-    if s["evdev_extras"]:
-        info(f"Removing entry from {EVDEV_EXTRAS} ...")
-        backup_file(EVDEV_EXTRAS)
-        removed = remove_layout_from_xml(EVDEV_EXTRAS)
-        ok("Entry removed from evdev.extras.xml.") if removed else warn("Entry not found in evdev.extras.xml.")
+    # 3. Remove from evdev.xml
+    if s["evdev_xml"]:
+        info(f"Removing entry from {EVDEV_XML} ...")
+        backup_file(EVDEV_XML)
+        removed = remove_layout_from_xml(EVDEV_XML)
+        ok("Entry removed from evdev.xml.") if removed else warn("Entry not found in evdev.xml.")
     else:
-        info("Entry not present in evdev.extras.xml.")
+        info("Entry not present in evdev.xml.")
 
     print()
     ok("Uninstallation complete.")

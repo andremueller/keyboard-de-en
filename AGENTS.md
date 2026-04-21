@@ -14,8 +14,8 @@
 
 ## Linux installer — critical facts
 
-- **Ubuntu 24.04 / GNOME 46 uses `evdev` rules**, not `base`. The layout must be registered in **both** `evdev.extras.xml` and `base.extras.xml`. Registering only `base.extras.xml` will not make the layout appear in GNOME Settings.
-- **Do not edit `base.xml` or `evdev.xml`** — those are overwritten on system updates.
+- **Ubuntu 24.04 / GNOME 46: `evdev.extras.xml` and `base.extras.xml` are NOT read** by libxkbcommon or GNOME. These files exist in the package but are never merged into the main XML. They are effectively dead on Ubuntu 24.04.
+- **The layout must be registered directly in `evdev.xml` and `base.xml`** — these are the files actually read by libxkbcommon/GNOME/localectl. Yes, they are overwritten by `apt upgrade xkb-data`; re-run `sudo make install` after such an upgrade.
 - The layout uses `include "level3(alt_switch)"` so the regular `Alt` key (not AltGr) activates umlauts.
 - After installation a **logout/login or reboot** is required for GNOME to pick up the new layout.
 - `make load` uses `setxkbmap -I linux/ de-en-mix` — loads the layout temporarily for the current X session without installing; does not appear in GNOME menu.
@@ -34,8 +34,8 @@ make load        # temporary session load (no sudo)
 
 ## Installation paths (Linux)
 - Symbol file: `/usr/share/X11/xkb/symbols/de-en-mix`
-- Registered in: `/usr/share/X11/xkb/rules/base.extras.xml`
-- Registered in: `/usr/share/X11/xkb/rules/evdev.extras.xml`
+- Registered in: `/usr/share/X11/xkb/rules/base.xml`
+- Registered in: `/usr/share/X11/xkb/rules/evdev.xml`
 
 ## Layout key mappings
 - Alt+a/o/u/s → ä/ö/ü/ß

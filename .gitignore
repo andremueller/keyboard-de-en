@@ -1,1 +1,3 @@
 linux/.venv/
+__pycache__/
+
