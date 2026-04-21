@@ -293,10 +293,10 @@ def cmd_prepare() -> int:
     header("Checking dependencies")
 
     deps = {
-        "python3": ("python3", "python3"),
-        "python3-venv": ("python3 -m venv --help", "python3-venv"),
-        "setxkbmap": ("setxkbmap -version", "x11-xkb-utils"),
-        "localectl": ("localectl --version", "systemd"),
+        "python3":      ("python3 --version",              "python3"),
+        "python3-venv": ("python3 -c 'import venv'",       "python3-venv"),
+        "setxkbmap":    ("which setxkbmap",                "x11-xkb-utils"),
+        "localectl":    ("which localectl",                "systemd"),
     }
 
     missing_pkgs = []
@@ -314,7 +314,13 @@ def cmd_prepare() -> int:
 
     print()
     warn(f"Missing packages: {', '.join(missing_pkgs)}")
-    answer = input("  Do you want to install them now? [y/N] ").strip().lower()
+    try:
+        answer = input("  Do you want to install them now? [y/N] ").strip().lower()
+    except (EOFError, KeyboardInterrupt):
+        print()
+        info("Non-interactive mode — skipping installation.")
+        info(f"Run manually: sudo apt-get install -y {' '.join(missing_pkgs)}")
+        return 0
     if answer == "y":
         info(f"Running: sudo apt-get install -y {' '.join(missing_pkgs)}")
         run(["sudo", "apt-get", "install", "-y"] + missing_pkgs)
