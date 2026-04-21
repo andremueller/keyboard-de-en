@@ -38,6 +38,7 @@ make load        # temporary session load (no sudo)
 - Registered in: `/usr/share/X11/xkb/rules/evdev.xml`
 
 ## Layout key mappings
-- Alt+a/o/u/s → ä/ö/ü/ß
-- Shift+Alt+a/o/u → Ä/Ö/Ü
-- macOS/Linux use `Alt`; Windows uses `AltGr` / `Ctrl+Alt`
+- Alt+;/'/[/- → ö/ä/ü/ß (right Alt on Linux/Windows, Alt on macOS)
+- Shift+Alt+;/'/[ → Ö/Ä/Ü
+- Linux uses `ralt_switch` (right Alt = AltGr) so left Alt remains free for Alt+Tab etc.
+- macOS uses left Alt; Windows uses `AltGr` / `Ctrl+Alt`

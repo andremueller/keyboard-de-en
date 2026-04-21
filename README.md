@@ -18,7 +18,7 @@ The idea: keep the standard US layout. German umlauts are typed by holding `Alt`
 | Shift+Alt + <kbd>[</kbd> | Ü      |
 | Alt + <kbd>-</kbd>       | ß      |
 
-> On Windows, use `AltGr` (right Alt) or `Ctrl+Alt` instead of `Alt`.
+> On Linux, use the **right Alt** key. On Windows, use `AltGr` (right Alt) or `Ctrl+Alt` instead of `Alt`.
 
 ## macOS
 

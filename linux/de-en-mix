@@ -24,6 +24,6 @@ xkb_symbols "basic" {
     // -  -> ß (Alt+-)  /  no uppercase
     key <AE11> { [ minus, underscore, ssharp, ssharp ] };
 
-    // Use Alt (not AltGr) as level3 modifier
-    include "level3(alt_switch)"
+    // Use right Alt (AltGr) as level3 modifier — left Alt remains free for Alt+Tab etc.
+    include "level3(ralt_switch)"
 };
