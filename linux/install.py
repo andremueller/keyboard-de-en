@@ -45,6 +45,7 @@ LAYOUT_NAME = "de-en-mix"
 LAYOUT_SHORT = "de"
 LAYOUT_DESCRIPTION = "German (US Mix)"
 LAYOUT_LANG = "deu"
+LAYOUT_COUNTRY = "DE"
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -109,36 +110,23 @@ def _layout_entry_exists(root, name: str) -> bool:
 
 def _build_layout_element(use_lxml: bool):
     """Build a <layout> XML element."""
-    if use_lxml:
-        layout = ET.Element("layout")
-        ci = ET.SubElement(layout, "configItem")
-        ci.set("popularity", "exotic")
-        name_el = ET.SubElement(ci, "name")
-        name_el.text = LAYOUT_NAME
-        short = ET.SubElement(ci, "shortDescription")
-        short.text = LAYOUT_SHORT
-        desc = ET.SubElement(ci, "description")
-        desc.text = LAYOUT_DESCRIPTION
-        lang_list = ET.SubElement(ci, "languageList")
-        lang = ET.SubElement(lang_list, "iso639Id")
-        lang.text = LAYOUT_LANG
-        ET.SubElement(layout, "variantList")
-        return layout
-    else:
-        layout = ET.Element("layout")
-        ci = ET.SubElement(layout, "configItem")
-        ci.set("popularity", "exotic")
-        name_el = ET.SubElement(ci, "name")
-        name_el.text = LAYOUT_NAME
-        short = ET.SubElement(ci, "shortDescription")
-        short.text = LAYOUT_SHORT
-        desc = ET.SubElement(ci, "description")
-        desc.text = LAYOUT_DESCRIPTION
-        lang_list = ET.SubElement(ci, "languageList")
-        lang = ET.SubElement(lang_list, "iso639Id")
-        lang.text = LAYOUT_LANG
-        ET.SubElement(layout, "variantList")
-        return layout
+    layout = ET.Element("layout")
+    ci = ET.SubElement(layout, "configItem")
+    ci.set("popularity", "exotic")
+    name_el = ET.SubElement(ci, "name")
+    name_el.text = LAYOUT_NAME
+    short = ET.SubElement(ci, "shortDescription")
+    short.text = LAYOUT_SHORT
+    desc = ET.SubElement(ci, "description")
+    desc.text = LAYOUT_DESCRIPTION
+    country_list = ET.SubElement(ci, "countryList")
+    country = ET.SubElement(country_list, "iso3166Id")
+    country.text = LAYOUT_COUNTRY
+    lang_list = ET.SubElement(ci, "languageList")
+    lang = ET.SubElement(lang_list, "iso639Id")
+    lang.text = LAYOUT_LANG
+    ET.SubElement(layout, "variantList")
+    return layout
 
 def _indent_lxml(elem, level: int = 0) -> None:
     """Add pretty-print indentation (lxml)."""
