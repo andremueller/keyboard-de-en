@@ -2,7 +2,7 @@
 
 Mix keyboard layout for German software developers working with the US layout who occasionally need to type umlauts.
 
-![image-20260421093141047](/home/muellera/.config/Typora/typora-user-images/image-20260421093141047.png)
+![de en mix layout](README.assets/de-en-mix.png)
 
 Keyboard switching between American (US) and German (DE) layouts slows everything down. The US layout is ideal for software development — all special characters are easily reachable.
 
