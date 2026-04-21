@@ -440,40 +440,61 @@ def cmd_uninstall() -> int:
     return 0
 
 def cmd_load() -> int:
+    import tempfile
     header("Temporarily loading German (US Mix) keyboard layout")
 
     if not LAYOUT_SRC.exists():
         error(f"Source layout file not found: {LAYOUT_SRC}")
         return 1
 
-    info("Loading layout using setxkbmap with local symbol path...")
-    info(f"Symbol path: {SCRIPT_DIR}")
     info("Note: This does NOT require sudo and is only active for the current session.")
     info("      After logout the layout will revert to default.")
     info("      This does NOT appear in the GNOME layout menu.")
 
-    result = run(
-        ["setxkbmap", "-I", str(SCRIPT_DIR), LAYOUT_NAME, "-print"],
-        check=False, capture=True
-    )
+    # xkbcomp always prefers the system symbols dir over -I paths for layout
+    # includes resolved by setxkbmap. Work around this by copying the local
+    # symbol file to a temp dir and building the keymap directly with xkbcomp.
+    with tempfile.TemporaryDirectory() as tmpdir:
+        tmp_symbols = Path(tmpdir) / "symbols"
+        tmp_symbols.mkdir()
+        shutil.copy2(LAYOUT_SRC, tmp_symbols / LAYOUT_NAME)
 
-    if result.returncode != 0:
-        error("setxkbmap failed to parse the layout:")
-        error(result.stderr)
-        return 1
+        info(f"Staging layout in temp dir: {tmpdir}")
 
-    info("Compiled keymap:")
-    print(result.stdout)
+        # Generate the keymap description
+        result = run(
+            ["setxkbmap", "-I", tmpdir, "-layout", LAYOUT_NAME, "-print"],
+            check=False, capture=True
+        )
 
-    result2 = run(
-        ["setxkbmap", "-I", str(SCRIPT_DIR), LAYOUT_NAME],
-        check=False, capture=True
-    )
+        if result.returncode != 0:
+            error("setxkbmap failed to generate keymap description:")
+            error(result.stderr)
+            return 1
 
-    if result2.returncode != 0:
-        error("Failed to load layout:")
-        error(result2.stderr)
-        return 1
+        info("Keymap description generated. Compiling and loading...")
+
+        # Compile and load directly into the X server
+        xkbcomp_proc = subprocess.run(
+            ["xkbcomp", f"-I{tmpdir}", "-", os.environ.get("DISPLAY", ":0")],
+            input=result.stdout,
+            capture_output=True,
+            text=True,
+        )
+
+        errors = [l for l in xkbcomp_proc.stderr.splitlines() if "Error" in l]
+        warnings = [l for l in xkbcomp_proc.stderr.splitlines()
+                    if "Warning" in l and "XF86" not in l and "not found in" not in l]
+
+        if warnings:
+            for w in warnings:
+                warn(w.strip())
+
+        if xkbcomp_proc.returncode != 0 or errors:
+            for e in errors:
+                error(e.strip())
+            error("Failed to load layout. Try 'sudo make install' first, then 'make load'.")
+            return 1
 
     ok("Layout loaded successfully for this session.")
     info("Test: press Alt+a → ä, Alt+o → ö, Alt+u → ü, Alt+s → ß")
