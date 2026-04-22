@@ -3,10 +3,15 @@
 // Level 1: normal, Level 2: Shift, Level 3: Alt, Level 4: Shift+Alt
 //
 // Umlaut positions mirror the standard German keyboard:
-//   ;  -> ä / Ä   (DE: Ä key)
-//   '  -> ö / Ö   (DE: Ö key)
+//   ;  -> ö / Ö   (DE: Ö key)
+//   '  -> ä / Ä   (DE: Ä key)
 //   [  -> ü / Ü   (DE: Ü key)
 //   -  -> ß        (DE: ß key, no uppercase)
+//
+// Dead keys for French/Spanish accents:
+//   Alt+=        -> dead_acute      (accent aigu:        é, á, í, ó, ú, …)
+//   Shift+Alt+=  -> dead_grave      (accent grave:       è, à, ì, ò, ù, …)
+//   Alt+`        -> dead_circumflex (accent circonflexe: ê, â, î, ô, û, …)
 
 default partial alphanumeric_keys
 xkb_symbols "basic" {
@@ -23,6 +28,11 @@ xkb_symbols "basic" {
     key <AD11> { [ bracketleft, braceleft, udiaeresis, Udiaeresis ] };
     // -  -> ß (Alt+-)  /  no uppercase
     key <AE11> { [ minus, underscore, ssharp, ssharp ] };
+
+    // =  -> dead_acute (Alt+=)  /  dead_grave (Shift+Alt+=)
+    key <AE12> { [ equal, plus, dead_acute, dead_grave ] };
+    // `  -> dead_circumflex (Alt+`)  /  dead_tilde (Shift+Alt+`)
+    key <TLDE> { [ grave, asciitilde, dead_circumflex, dead_tilde ] };
 
     // Use right Alt (AltGr) as level3 modifier — left Alt remains free for Alt+Tab etc.
     include "level3(ralt_switch)"
