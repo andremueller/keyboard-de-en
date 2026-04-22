@@ -29,6 +29,11 @@ xkb_symbols "basic" {
     // -  -> ß (Alt+-)  /  no uppercase
     key <AE11> { [ minus, underscore, ssharp, ssharp ] };
 
+    // e  -> € (Alt+e)
+    key <AD03> { [ e, E, EuroSign ] };
+    // 3  -> § (Alt+3)
+    key <AE03> { [ 3, numbersign, section ] };
+
     // =  -> dead_acute (Alt+=)  /  dead_grave (Shift+Alt+=)
     key <AE12> { [ equal, plus, dead_acute, dead_grave ] };
     // `  -> dead_circumflex (Alt+`)  /  dead_tilde (Shift+Alt+`)

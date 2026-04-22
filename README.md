@@ -17,9 +17,11 @@ The idea: keep the standard US layout. German umlauts are typed by holding `Alt`
 | Alt + <kbd>[</kbd>       | ü      |
 | Shift+Alt + <kbd>[</kbd> | Ü      |
 | Alt + <kbd>-</kbd>       | ß      |
-| Alt + <kbd>=</kbd>       | dead acute ` ´ ` (then a/e/i/o/u → á/é/í/ó/ú) |
-| Shift+Alt + <kbd>=</kbd> | dead grave `` ` `` (then a/e/i/o/u → à/è/ì/ò/ù) |
-| Alt + <kbd>\`</kbd>      | dead circumflex `^` (then a/e/i/o/u → â/ê/î/ô/û) |
+| Alt + <kbd>e</kbd>       | €      |
+| Alt + <kbd>3</kbd>       | §      |
+| Alt + <kbd>=</kbd>       | dead acute ` ´ ` → then a/e/i/o/u → á/é/í/ó/ú |
+| Shift+Alt + <kbd>=</kbd> | dead grave `` ` `` → then a/e/i/o/u → à/è/ì/ò/ù |
+| Alt + <kbd>\`</kbd>      | dead circumflex `^` → then a/e/i/o/u → â/ê/î/ô/û |
 
 > On Linux, use the **right Alt** key. On Windows, use `AltGr` (right Alt) or `Ctrl+Alt` instead of `Alt`.
 
